@@ -7,5 +7,7 @@ public enum ContentType {
 	JPG,
 	JPEG,
 	GIF,
-	BMP
+	BMP,
+	JSON,
+	PDF
 }

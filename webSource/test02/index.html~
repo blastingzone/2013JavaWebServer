@@ -4,10 +4,10 @@
       charset=utf-8'
       />
 <script type='text/javascript'
-	src='/ha/kyjob/javascript/main.js'></script>
+	src='ha/kyjob/javascript/main.js'></script>
 <link rel='stylesheet'
       type='text/css'
-      href='/ha/kyjob/css/main.css'
+      href='ha/kyjob/css/main.css'
       />
 </head>
 <body>

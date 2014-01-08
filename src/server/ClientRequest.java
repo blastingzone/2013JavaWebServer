@@ -34,21 +34,52 @@ public class ClientRequest extends Thread {
 			BufferedReader br = new BufferedReader(isr);
 			
 			// 클라이언트 요청으로부터 header를 읽어온다.
-			String HttpHeader = br.readLine();
+			String HttpHeader = RequestHeaderBuilder.headBuild(br);
 			
-			// Request Type을 보고 전송 방식을 결정
-			String request = URLParser.getRequestType(HttpHeader);
-			System.out.println("Request Type : " + request);
+			// test
+			System.out.println("=======RequestHeaderSTART=======");
+			System.out.println(HttpHeader);
+			System.out.println("=======RequestHeaderEND=======");
+			
+			// 헤더에 문제가 있으면 연결을 끊고 내보낸다
+			if (HttpHeader == null || HttpHeader.equals(""))
+			{
+				System.out.println("Header Error!");
+				clientAndServerConn.close();
+				return;
+			}
+			
 
+			////////////////////////////////////////////////
+			// Request Type을 보고 전송 방식을 결정
+			///////////////////////////////////////////////
+			
+			String request = URLParser.getRequestType(HttpHeader);
+			
+			// test
+			System.out.println("=======RequestTypeSTART=======");
+			System.out.println("Request Type : " + request);
+			System.out.println("=======RequestTypeEND=======");
+			
+			// ContentType을 가져와야 // 기본 : HTML
+			String RequestContentType = URLParser.getContentType(HttpHeader);
+			ContentType ct = ContentTypeParser.setContentType(RequestContentType);
+			
+			// test
+			System.out.println("=======ContentTypeSTART=======");
+			System.out.println(ct.name());
+			System.out.println("=======ContentTypeEND=======");
+			
 			///////////////////////////////////////////
 			// 데이터 전송
 			///////////////////////////////////////////
 
 			// header와 header에 들어갈 코드들
+			
 			String ResponseHeader = "";
 			String ResponseCode = "";
-			ContentType ct = ContentType.HTML;
 			
+			// 요청받은 파일 경로의 파일을 연다
 			String requestedFilePath = HTMLPATH + URLParser.getRequestPath(HttpHeader);
 			
 			File serverFile = new File(requestedFilePath);
@@ -57,17 +88,21 @@ public class ClientRequest extends Thread {
 			if ( !serverFile.exists() )
 			{
 				// 404로 보내버림
+				serverFile = new File(HTMLPATH + "/error.html");
+				ResponseCode = "404";
+				ResponseHeader = ResponseHeadBuilder.buildHeader(serverFile.length(), ResponseCode, ct);
 			}
 			else
 			{
 				// 파일이 있으면 코드 200
 				ResponseCode = "200";
-			}
-			
-			if ( ResponseCode.equals("200") )
-			{
 				ResponseHeader = ResponseHeadBuilder.buildHeader(serverFile.length(), ResponseCode, ct);
 			}
+			
+			//test
+			System.out.println("=======ResponseHeaderSTART=======");
+	 		System.out.println(ResponseHeader);
+	 		System.out.println("=======ResponseHeaderEND=======");
 			
 			// 데이터 전송을 위한 클래스를 선언
 			DataOutputStream dos = new DataOutputStream(os);

@@ -6,7 +6,11 @@ public class URLParser {
 
 	static String getRequestType(String header) {
 		// request 정보는 header 맨 앞에서부터 첫 번째 띄워쓰기까지 있으므로
-		String requestType = header.substring(0, header.indexOf(" "));
+		String requestType = "";
+		
+		if ( header.indexOf(" ") > 0 )
+			requestType = header.substring(0, header.indexOf(" "));
+		
 		return requestType;
 	}
 
@@ -15,9 +19,27 @@ public class URLParser {
 		// 첫 번째 공백으로부터 한 칸 뒤
 		int URLStartPosition = requestPath.indexOf(" ") + 1;
 		// 두 번째 공백까지
-		int URLEndPosition = requestPath.lastIndexOf(" ");
-		System.out.println(URLStartPosition +" "+ URLEndPosition);
-		return requestPath.substring(URLStartPosition, URLEndPosition);
+		int URLEndPosition = requestPath.indexOf(" ", URLStartPosition );
+		
+		// test
+		//System.out.println(URLStartPosition +" "+ URLEndPosition);
+		// 시작점은 끝점보다 앞이어야 한다.
+		if ( URLStartPosition < URLEndPosition )
+			return requestPath.substring(URLStartPosition, URLEndPosition);
+		else
+			return "error.html";
+	}
+	
+	public static String getContentType(String header) {
+		int StartPosition = header.indexOf(".") + 1;
+		int EndPosition = header.indexOf(" ", StartPosition);
+		
+		if ( StartPosition < EndPosition )
+		{
+			return header.substring(StartPosition, EndPosition);
+		}
+		else
+			return "";
 	}
 
 	public static String getRequestHost(String header) {
