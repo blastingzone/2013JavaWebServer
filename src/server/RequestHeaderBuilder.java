@@ -13,7 +13,7 @@ public class RequestHeaderBuilder {
 			header += line;
 			header += URLParser.NEWLINE;
 		} while ( line != null && !"".equals(line));
-			
+		
 		return header;
 	}
 }

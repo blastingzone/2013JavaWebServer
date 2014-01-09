@@ -5,7 +5,9 @@ public class ResponseHeadBuilder {
 	public static String buildHeader(long ContentLength, String ResponseCode, ContentType type){
 		String header = "";
 		header = "HTTP/1.0 " + ResponseCode + " Document Follows " + URLParser.NEWLINE;
-		header += "Content-Type: " + ContentTypeParser.getContentType(type) + " ;charset=utf-8" + URLParser.NEWLINE;
+		header += "Server: TestJavaServer " + URLParser.NEWLINE;
+		header += "Content-Type: " + type.getContentType() + " ;charset=utf-8" + URLParser.NEWLINE;
+		header += "Accept-Ranges: Bytes" + URLParser.NEWLINE;
  		header += "Cache-Control: max-age=2400, must-revalidate" + URLParser.NEWLINE;
  		header += "Content-Length: " + ContentLength + URLParser.NEWLINE + URLParser.NEWLINE;
  		
