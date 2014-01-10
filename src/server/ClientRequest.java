@@ -9,16 +9,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ClientRequest extends Thread {
 
 	public static final String HTMLPATH = "./webSource";
-
-	// 로그 기록
-	private final static Logger log = Logger.getLogger(ClientRequest.class
-			.getName());
 
 	private Socket clientAndServerConn = null;
 
@@ -66,16 +60,15 @@ public class ClientRequest extends Thread {
 			///////////////////////////////////
 			if ("POST".equalsIgnoreCase(requestMethod)) {
 				int ContentsLength = URLParser.getContentLength(requestHeader);
-				char character;
-				String body = "";
-				// ContentsLength 만큼 한땀한땀 읽어와서 저장한다.
-				for (int i = 0; i < ContentsLength; ++i) {
-					character = (char)br.read();
-					body += character;
-				}
+				
+				// POST Body 크기(ContentsLength)만큼 배열을 할당받는다
+				char[] character = new char[ContentsLength];
+				
+				// ContentsLength 만큼을 버퍼에서 읽어온다
+				br.read(character, 0, ContentsLength);
 				
 				System.out.println("=======PostBodySTART=======");
-				System.out.println(body);
+				System.out.println(character);
 				System.out.println("=======PosyBodyEND=======");
 			}
 
@@ -142,8 +135,7 @@ public class ClientRequest extends Thread {
 
 			clientAndServerConn.close();
 		} catch (IOException e) {
-			// 에러 로깅
-			log.log(Level.SEVERE, e.getMessage());
+			// 에러 로깅 (필요하면)
 		}
 	}
 

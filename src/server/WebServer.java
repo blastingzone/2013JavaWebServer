@@ -2,11 +2,8 @@ package server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Logger;
 
 public class WebServer {
-	private final static Logger log = Logger.getLogger(WebServer.class.getName());
-	
     public static void main(String argv[]) throws Exception {
     	
     	// 8080 포트로 요청이 들어온다고 보고 소켓 생성

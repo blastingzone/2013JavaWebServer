@@ -8,7 +8,7 @@ public class ResponseHeadBuilder {
 		header += "Server: TestJavaServer " + URLParser.NEWLINE;
 		header += "Content-Type: " + type.getContentType() + " ;charset=utf-8" + URLParser.NEWLINE;
 		header += "Accept-Ranges: Bytes" + URLParser.NEWLINE;
- 		header += "Cache-Control: max-age=2400, must-revalidate" + URLParser.NEWLINE;
+ 		header += "Cache-Control: max-age=600, must-revalidate" + URLParser.NEWLINE;
  		header += "Content-Length: " + ContentLength + URLParser.NEWLINE + URLParser.NEWLINE;
  		
  		return header;

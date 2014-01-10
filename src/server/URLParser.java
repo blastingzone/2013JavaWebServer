@@ -64,20 +64,4 @@ public class URLParser {
 		// if return -1 == error
 		return Integer.parseInt(Length);
 	}
-
-	public static String getRequestHost(String header) {
-		String result = "";
-		
-		String lines[] = header.split(NEWLINE);
-		
-		for (String line : lines) {
-			if (line.indexOf("Host: ") != -1) {
-				// Host: 부분을 떼버린다
-				result = line.replace("Host: ", "");
-				break;
-			}
-		}
-		// Host: 가 없으면 "" 리턴
-		return result;
-	}
 }
